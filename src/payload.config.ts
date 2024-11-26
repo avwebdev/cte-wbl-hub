@@ -7,10 +7,8 @@ import path from "path";
 import { fileURLToPath } from "url";
 
 import { defaultLexical } from "@/fields/defaultLexical";
-import { Categories } from "./collections/Categories";
 import { Media } from "./collections/Media";
 import { Pages } from "./collections/Pages";
-import { Posts } from "./collections/Posts";
 import { Users } from "./collections/Users";
 import { Footer } from "./components/Footer/config";
 import { Header } from "./components/Header/config";
@@ -63,8 +61,11 @@ export default buildConfig({
     pool: {
       connectionString: process.env.DATABASE_URI || "",
     },
+    push: false, // Set to true to push schema changes to the database
+    // Set to false because of long development time when making
+    // changes completely unrelated to schema
   }),
-  collections: [Pages, Posts, Media, Categories, Users],
+  collections: [Pages, Media, Users],
   cors: [getServerSideURL()].filter(Boolean),
   globals: [Header, Footer],
   plugins: [

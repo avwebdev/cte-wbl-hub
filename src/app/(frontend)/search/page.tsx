@@ -2,10 +2,6 @@ import type { Metadata } from "next/types";
 
 import { getPayload } from "payload";
 import React from "react";
-import { CardPostData } from "@/components/Card";
-import { CollectionArchive } from "@/components/CollectionArchive";
-import { Post } from "@/payload-types";
-import { Search } from "@/search/Component";
 import configPromise from "@payload-config";
 import PageClient from "./page.client";
 
@@ -15,50 +11,6 @@ type Args = {
   }>
 }
 export default async function Page({ searchParams: searchParamsPromise }: Args) {
-  const { q: query } = await searchParamsPromise;
-  const payload = await getPayload({ config: configPromise });
-
-  const posts = await payload.find({
-    collection: "search",
-    depth: 1,
-    limit: 12,
-    select: {
-      title: true,
-      slug: true,
-      categories: true,
-      meta: true,
-    },
-    // pagination: false reduces overhead if you don't need totalDocs
-    pagination: false,
-    ...(query
-      ? {
-        where: {
-          or: [
-            {
-              title: {
-                like: query,
-              },
-            },
-            {
-              "meta.description": {
-                like: query,
-              },
-            },
-            {
-              "meta.title": {
-                like: query,
-              },
-            },
-            {
-              slug: {
-                like: query,
-              },
-            },
-          ],
-        },
-      }
-      : {}),
-  });
 
   return (
     <div className="py-24">
@@ -66,15 +18,8 @@ export default async function Page({ searchParams: searchParamsPromise }: Args) 
       <div className="container mb-16">
         <div className="prose max-w-none dark:prose-invert">
           <h1 className="sr-only">Search</h1>
-          <Search />
         </div>
       </div>
-
-      {posts.totalDocs > 0 ? (
-        <CollectionArchive posts={posts.docs as CardPostData[]} />
-      ) : (
-        <div className="container">No results found.</div>
-      )}
     </div>
   );
 }

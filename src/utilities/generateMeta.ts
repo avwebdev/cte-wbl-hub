@@ -2,11 +2,11 @@ import type { Metadata } from "next";
 
 import { getServerSideURL } from "./getURL";
 import { mergeOpenGraph } from "./mergeOpenGraph";
-import type { Page, Post } from "../payload-types";
+import type { Page } from "../payload-types";
 
 
 export const generateMeta = async (args: {
-  doc: Partial<Page> | Partial<Post>
+  doc: Partial<Page>
 }): Promise<Metadata> => {
   const { doc } = args || {};
 

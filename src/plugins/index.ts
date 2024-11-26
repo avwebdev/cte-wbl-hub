@@ -1,5 +1,5 @@
 import { formBuilderPlugin } from "@payloadcms/plugin-form-builder";
-import { nestedDocsPlugin } from "@payloadcms/plugin-nested-docs";
+// import { nestedDocsPlugin } from "@payloadcms/plugin-nested-docs";
 import { redirectsPlugin } from "@payloadcms/plugin-redirects";
 import { searchPlugin } from "@payloadcms/plugin-search";
 import { seoPlugin } from "@payloadcms/plugin-seo";
@@ -12,19 +12,17 @@ import {
 import { s3Storage } from "@payloadcms/storage-s3";
 import { Plugin } from "payload";
 import { revalidateRedirects } from "@/hooks/revalidateRedirects";
-import { Page, Post } from "@/payload-types";
-import { beforeSyncWithSearch } from "@/search/beforeSync";
-import { searchFields } from "@/search/fieldOverrides";
+import { Page } from "@/payload-types";
 
 import { getServerSideURL } from "@/utilities/getURL";
 
-const generateTitle: GenerateTitle<Post | Page> = ({ doc }) => {
+const generateTitle: GenerateTitle<Page> = ({ doc }) => {
   return doc?.title
     ? `${doc.title} | CTE WBL Hub`
     : "CTE WBL Hub | Career and Technical Education Work-Based Learning";
 };
 
-const generateURL: GenerateURL<Post | Page> = ({ doc }) => {
+const generateURL: GenerateURL<Page> = ({ doc }) => {
   const url = getServerSideURL();
 
   return doc?.slug ? `${url}/${doc.slug}` : url;
@@ -32,7 +30,7 @@ const generateURL: GenerateURL<Post | Page> = ({ doc }) => {
 
 export const plugins: Plugin[] = [
   redirectsPlugin({
-    collections: ["pages", "posts"],
+    collections: ["pages"],
     overrides: {
       // @ts-expect-error
       fields: ({ defaultFields }) => {
@@ -53,9 +51,6 @@ export const plugins: Plugin[] = [
         afterChange: [revalidateRedirects],
       },
     },
-  }),
-  nestedDocsPlugin({
-    collections: ["categories"],
   }),
   seoPlugin({
     generateTitle,
@@ -86,15 +81,6 @@ export const plugins: Plugin[] = [
           }
           return field;
         });
-      },
-    },
-  }),
-  searchPlugin({
-    collections: ["posts"],
-    beforeSync: beforeSyncWithSearch,
-    searchOverrides: {
-      fields: ({ defaultFields }) => {
-        return [...defaultFields, ...searchFields];
       },
     },
   }),

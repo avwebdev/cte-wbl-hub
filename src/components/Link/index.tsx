@@ -2,7 +2,7 @@ import Link from "next/link";
 import React from "react";
 import { Button, type ButtonProps } from "@/components/ui/button";
 
-import type { Page, Post } from "@/payload-types";
+import type { Page } from "@/payload-types";
 import { cn } from "src/utilities/cn";
 
 type CMSLinkType = {
@@ -12,8 +12,8 @@ type CMSLinkType = {
   label?: string | null
   newTab?: boolean | null
   reference?: {
-    relationTo: "pages" | "posts"
-    value: Page | Post | string | number
+    relationTo: "pages"
+    value: Page | string | number
   } | null
   size?: ButtonProps["size"] | null
   type?: "custom" | "reference" | null
