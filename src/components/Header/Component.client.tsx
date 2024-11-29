@@ -33,9 +33,9 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ header }) => {
 
   return (
     <header
-      className="container relative z-20 "
+      className="container relative z-20"
     >
-      <div className="flex justify-between border-b border-border py-4">
+      <div className="flex justify-between border-b border-border py-4 md:py-3">
         <Link href="/">
           <Logo
             loading="eager"

@@ -112,6 +112,7 @@ export interface Page {
         }[]
       | null;
     media?: (number | null) | Media;
+    color: string;
   };
   layout: (CallToActionBlock | ContentBlock | MediaBlock | FormBlock)[];
   meta?: {
@@ -646,6 +647,7 @@ export interface PagesSelect<T extends boolean = true> {
               id?: T;
             };
         media?: T;
+        color?: T;
       };
   layout?:
     | T

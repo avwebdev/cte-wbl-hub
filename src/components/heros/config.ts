@@ -5,6 +5,7 @@ import {
   lexicalEditor,
 } from "@payloadcms/richtext-lexical";
 import type { Field } from "payload";
+import { colorSwatchField } from "@/fields/ColorSwatch";
 
 import { linkGroup } from "@/fields/linkGroup";
 
@@ -66,6 +67,12 @@ export const hero: Field = {
       relationTo: "media",
       required: true,
     },
+    colorSwatchField({
+      defaultColors: ["#000000", "#777", "#ffffff", "bg-amber-500", "bg-teal-500", "bg-violet-500", "text-amber-700", "text-teal-700", "text-violet-700"],
+      overrides: {
+        required: true,
+      },
+    }),
   ],
   label: false,
 };
