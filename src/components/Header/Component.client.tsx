@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
-import { CMSLink } from "@/components/Link";
+import { CMSLink, resolveLink } from "@/components/Link";
 import { Logo } from "@/components/Logo/Logo";
 import type { Header } from "@/payload-types";
 
@@ -31,25 +31,32 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ header }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [headerTheme]);
 
+  const COLORS = ["#0096a0", "#ff6e14", "#73b400"];
+
   return (
-    <header
-      className="container relative z-20"
-    >
-      <div className="flex justify-between border-b border-border py-4 md:py-3">
-        <Link href="/">
-          <Logo
-            loading="eager"
-            priority="high"
-          />
+    <header className="container relative z-20">
+      <div className="flex items-center justify-between border-b border-border pb-2 pt-3 text-gray-700 md:pt-3">
+        <Link href="/" className="flex items-center gap-3">
+          <Logo loading="eager" priority="high" />
+          <h1 className="text-nowrap text-3xl">WBL Hub</h1>
         </Link>
         <nav className="flex items-center gap-8">
           {navItems.map(({ link }, i) => {
-            return <CMSLink key={i} {...link} appearance="link" />;
+            return (
+              <CMSLink
+                key={i}
+                {...link}
+                appearance="link"
+                // eslint-disable-next-line max-len
+                className={`text-sm font-light text-[#454545] decoration-4 underline-offset-[18px] ${resolveLink(link) === pathname ? "underline" : ""}`}
+                style={{ textDecorationColor: COLORS[i % COLORS.length] }}
+              />
+            );
           })}
         </nav>
         <Link href="/search">
           <span className="sr-only">Search</span>
-          <SearchIcon className="w-5 text-primary" />
+          <SearchIcon className="size-8 w-5 text-primary" />
         </Link>
       </div>
     </header>

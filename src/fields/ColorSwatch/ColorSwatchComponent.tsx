@@ -49,12 +49,8 @@ export const ColorSwatchComponent: React.FC<ColorSwatchProps> = ({
 
   const { value = "", setValue } = useField({ path });
 
-  const defaultPreferenceKey = useGlobalPreferences
-    ? "default-color-swatch-colors"
-    : field.name + "-default-color-swatch-colors";
-  const customPreferenceKey = useGlobalPreferences
-    ? "custom-color-swatch-colors"
-    : field.name + "-custom-color-swatch-colors";
+  const defaultPreferenceKey = (useGlobalPreferences ? "" : `${field.name}-`) + "default-color-swatch-colors";
+  const customPreferenceKey = (useGlobalPreferences ? "" : `${field.name}-`) + "custom-color-swatch-colors";
 
   const { getPreference, setPreference } = usePreferences();
 
@@ -190,7 +186,7 @@ export const ColorSwatchComponent: React.FC<ColorSwatchProps> = ({
           )}
           {allowHexColors && (
             <input
-              className={`${baseClass}__input`}
+              className="max-w-24"
               type="text"
               placeholder="#000000"
               onChange={(e) => {
@@ -202,7 +198,6 @@ export const ColorSwatchComponent: React.FC<ColorSwatchProps> = ({
           )}
           <br />
           <Button
-            className={`${baseClass}__btn`}
             buttonStyle="primary"
             iconPosition="left"
             iconStyle="with-border"
@@ -213,7 +208,6 @@ export const ColorSwatchComponent: React.FC<ColorSwatchProps> = ({
           </Button>
           &nbsp;
           <Button
-            className={`${baseClass}__btn`}
             buttonStyle="secondary"
             iconPosition="left"
             iconStyle="with-border"
@@ -226,9 +220,9 @@ export const ColorSwatchComponent: React.FC<ColorSwatchProps> = ({
       )}
       {!isAdding && (
         <Fragment>
-          <ul className={`${baseClass}__colors`}>
+          <ul className="flex flex-wrap list-none p-0 m-0">
             {defaultColorOptions.map((color, i) => (
-              <li key={i} className={`${baseClass}__color-default`}>
+              <li key={i}>
                 <button
                   type="button"
                   key={color ? color : "transparent"}
@@ -258,19 +252,14 @@ export const ColorSwatchComponent: React.FC<ColorSwatchProps> = ({
             ))}
             {allowUserPreferences && customColorOptions.length > 0 && (
               <>
-                <li className={`${baseClass}__color-custom-separator`} />
+                <li className="mx-4 my-2 h-8 w-px border-l border-solid border-[#aaa]" />
                 {customColorOptions.map((color, i) => (
                   <li key={i} className={`${baseClass}__color-custom`}>
                     <button
                       type="button"
                       key={color ? color : "transparent"}
-                      className={`chip ${!color ? "no-color" : ""} ${
-                        color === value ? "chip--selected" : ""
-                      } ${
-                        color &&
-                        isTailwindColor(color, tailwindColorWhitelist) &&
-                        color
-                      } chip--clickable`}
+                      // eslint-disable-next-line max-len
+                      className={`relative m-1 size-10 cursor-pointer rounded-full border border-transparent shadow-[0_0_4px_rgba(0,0,0,0.5)] ${!color ? "bg-white" : ""} ${color === value ? "border-white shadow-[0_0_8px_rgba(0,0,0,0.5)]" : ""} ${color && isTailwindColor(color, tailwindColorWhitelist) ? color : ""}`}
                       style={
                         // Hex values should be inline background
                         {
@@ -298,7 +287,7 @@ export const ColorSwatchComponent: React.FC<ColorSwatchProps> = ({
           </ul>
           {allowUserPreferences && (
             <Button
-              className="add-color"
+              className="m-1 size-8 p-0"
               icon="plus"
               tooltip="Add color"
               buttonStyle="icon-label"
@@ -312,7 +301,7 @@ export const ColorSwatchComponent: React.FC<ColorSwatchProps> = ({
           )}
           {showRemoveButton && (
             <Button
-              className="remove-color"
+              className="m-1 size-8 p-0"
               icon="x"
               tooltip="Remove color"
               buttonStyle="icon-label"

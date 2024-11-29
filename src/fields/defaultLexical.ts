@@ -7,6 +7,7 @@ import {
   UnderlineFeature,
 } from "@payloadcms/richtext-lexical";
 import { Config } from "payload";
+import { EmbedFeature } from "@/lexical-features/embedFeature/feature.server";
 
 export const defaultLexical: Config["editor"] = lexicalEditor({
   features: () => {
@@ -37,6 +38,7 @@ export const defaultLexical: Config["editor"] = lexicalEditor({
           ];
         },
       }),
+      EmbedFeature(),
     ];
   },
 });

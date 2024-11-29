@@ -18,11 +18,9 @@ export const EmbedFeature = createServerFeature({
         node: EmbedNode,
       },
     ],
-    generateSchemaMap: () => {
-      const schemaMap = new Map<string, Field[]>();
-
+    generateSchemaMap: ({ schemaMap }) => {
       const fields = [urlField];
-      schemaMap.set("fields", fields);
+      schemaMap.set("fields", { fields });
 
       return schemaMap;
     },

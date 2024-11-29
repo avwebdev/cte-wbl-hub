@@ -2,15 +2,15 @@
 
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext.js";
 import { $insertNodeToNearestRoot, mergeRegister } from "@lexical/utils";
-import { PluginComponent } from "@payloadcms/richtext-lexical";
+import type { PluginComponent } from "@payloadcms/richtext-lexical";
 import { FieldsDrawer } from "@payloadcms/richtext-lexical/client";
-import { useModal } from "@payloadcms/ui";
+import { useField, useModal } from "@payloadcms/ui";
 import {
   $getNodeByKey,
   $getSelection,
   $isRangeSelection,
   COMMAND_PRIORITY_EDITOR,
-  RangeSelection,
+  type RangeSelection,
 } from "lexical";
 import { useEffect, useState } from "react";
 

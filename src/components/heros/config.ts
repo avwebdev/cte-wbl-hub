@@ -68,7 +68,7 @@ export const hero: Field = {
       required: true,
     },
     colorSwatchField({
-      defaultColors: ["#000000", "#777", "#ffffff", "bg-amber-500", "bg-teal-500", "bg-violet-500", "text-amber-700", "text-teal-700", "text-violet-700"],
+      defaultColors: ["#000", "#fff", "#0096a0", "#ff6e14", "#73b400"],
       overrides: {
         required: true,
       },
