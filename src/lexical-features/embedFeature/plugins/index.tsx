@@ -3,8 +3,11 @@
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext.js";
 import { $insertNodeToNearestRoot, mergeRegister } from "@lexical/utils";
 import type { PluginComponent } from "@payloadcms/richtext-lexical";
-import { FieldsDrawer } from "@payloadcms/richtext-lexical/client";
-import { useField, useModal } from "@payloadcms/ui";
+import {
+  FieldsDrawer,
+  useEditorConfigContext,
+} from "@payloadcms/richtext-lexical/client";
+import { useModal } from "@payloadcms/ui";
 import {
   $getNodeByKey,
   $getSelection,
@@ -30,6 +33,11 @@ export const EmbedPlugin: PluginComponent = () => {
   const [lastSelection, setLastSelection] = useState<RangeSelection | null>();
   const [embedData, setEmbedData] = useState<EmbedNodeData | {}>({});
   const [targetNodeKey, setTargetNodeKey] = useState<string | null>(null);
+
+  const {
+    editorConfig,
+    fieldProps: { readOnly, schemaPath },
+  } = useEditorConfigContext();
 
   useEffect(() => {
     return mergeRegister(
@@ -103,6 +111,7 @@ export const EmbedPlugin: PluginComponent = () => {
 
   return (
     <FieldsDrawer
+      schemaPath={schemaPath}
       data={embedData}
       drawerSlug={drawerSlug}
       drawerTitle={"Create Embed"}

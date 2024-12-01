@@ -21,7 +21,7 @@ export const Logo = (props: Props) => {
     /* eslint-disable @next/next/no-img-element */
     <img
       alt="CTE Logo"
-      width={193}
+      width={31}
       height={34}
       loading={loading}
       fetchPriority={priority}

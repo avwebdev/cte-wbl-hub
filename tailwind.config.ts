@@ -1,23 +1,31 @@
 import typography from "@tailwindcss/typography";
 import { Config } from "tailwindcss";
 import animate from "tailwindcss-animate";
+import fluid, { extract, screens, fontSize } from "fluid-tailwind";
 
 const config: Config = {
-  content: [
-    "./pages/**/*.{ts,tsx}",
-    "./components/**/*.{ts,tsx}",
-    "./app/**/*.{ts,tsx}",
-    "./src/**/*.{ts,tsx}",
-  ],
+  content: {
+    files: [
+      "./pages/**/*.{ts,tsx}",
+      "./components/**/*.{ts,tsx}",
+      "./app/**/*.{ts,tsx}",
+      "./src/**/*.{ts,tsx}",
+    ],
+    extract,
+  },
   darkMode: ["selector", '[data-theme="dark"]'],
   plugins: [
     animate,
     typography,
+    fluid,
     ({ addComponents, theme }) => {
       addComponents({
         ".clip-slant": {
           clipPath: theme("clipPath.slant"),
         },
+        ".clip-arc": {
+          clipPath: theme("clipPath.arc")
+        }
       });
     },
   ],
@@ -37,6 +45,8 @@ const config: Config = {
     "bg-warning/30",
   ],
   theme: {
+    screens, // Tailwind's default screens, in `rem`
+    fontSize, // Tailwind's default font sizes, in `rem` (including line heights)
     container: {
       center: true,
       padding: {
@@ -67,6 +77,7 @@ const config: Config = {
       },
       clipPath: {
         slant: "polygon(0 0, 100% 0, 100% 85%, 0 100%)",
+        arc: 'path("M 0% 100% C 30% 81.8% 70% 81.8% 100% 100% L 100% 0% L 0% 0% L 0% 100% Z")',
       },
       colors: {
         accent: {

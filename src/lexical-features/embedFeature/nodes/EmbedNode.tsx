@@ -2,6 +2,7 @@ import {
   DecoratorBlockNode,
   SerializedDecoratorBlockNode,
 } from "@lexical/react/LexicalDecoratorBlockNode";
+import { createNode } from "@payloadcms/richtext-lexical";
 import type {
   DOMExportOutput,
   ElementFormatType,

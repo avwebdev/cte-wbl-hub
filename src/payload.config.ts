@@ -24,9 +24,6 @@ export default buildConfig({
       // The `BeforeLogin` component renders a message that you see while logging into your admin panel.
       // Feel free to delete this at any time. Simply remove the line below and the import `BeforeLogin` statement on line 15.
       beforeLogin: ["@/components/BeforeLogin"],
-      // The `BeforeDashboard` component renders the 'welcome' block that you see after logging into your admin panel.
-      // Feel free to delete this at any time. Simply remove the line below and the import `BeforeDashboard` statement on line 15.
-      beforeDashboard: ["@/components/BeforeDashboard"],
     },
     importMap: {
       baseDir: path.resolve(dirname),
@@ -61,7 +58,7 @@ export default buildConfig({
     pool: {
       connectionString: process.env.DATABASE_URI || "",
     },
-    // push: false, // Set to true to push schema changes to the database
+    push: false, // Set to true to push schema changes to the database
     // Set to false because of long development time when making
     // changes completely unrelated to schema
   }),

@@ -6,6 +6,8 @@ import { cn } from "src/utilities/cn";
 
 import { CMSLink } from "../../components/Link";
 
+import "./index.css";
+
 export const ContentBlock: React.FC<ContentBlockProps> = (props) => {
   const { columns } = props;
 
@@ -17,7 +19,7 @@ export const ContentBlock: React.FC<ContentBlockProps> = (props) => {
   };
 
   return (
-    <div className="container my-16">
+    <div className="content-block container my-16">
       <div className="grid grid-cols-4 gap-x-16 gap-y-8 lg:grid-cols-12">
         {columns &&
           columns.length > 0 &&

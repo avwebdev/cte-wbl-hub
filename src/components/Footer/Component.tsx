@@ -17,17 +17,19 @@ export async function Footer() {
   const { richText } = footer;
 
   return (
-    <footer>
+    <footer className="relative bottom-0 left-0 w-full">
       <div className="border-t border-border bg-[#0096A0] text-white dark:bg-card">
         <div className="container flex flex-col gap-8 py-8 md:flex-row md:justify-between">
-          <div className="flex flex-col-reverse items-start gap-4 md:flex-row md:items-center">
-            {richText && (
-              <RichText
-                className="mb-6"
-                content={richText}
-                enableGutter={false}
-              />
-            )}
+          <div className="flex flex-col-reverse items-center justify-center gap-4">
+            <div className="items-center justify-center">
+              {richText && (
+                <RichText
+                  className="mb-6"
+                  content={richText}
+                  enableGutter={false}
+                />
+              )}
+            </div>
           </div>
         </div>
       </div>

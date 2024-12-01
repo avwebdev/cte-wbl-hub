@@ -1,4 +1,4 @@
-import { createServerFeature } from "@payloadcms/richtext-lexical";
+import { createServerFeature, createNode } from "@payloadcms/richtext-lexical";
 import type { Field, TextField } from "payload";
 
 import { EmbedNode } from "./nodes/EmbedNode";
@@ -14,9 +14,20 @@ export const EmbedFeature = createServerFeature({
     ClientFeature:
       "/lexical-features/embedFeature/feature.client#EmbedFeatureClient",
     nodes: [
-      {
+      createNode({
+        converters: {
+          html: {
+            nodeTypes: ["EmbedNode"],
+            converter: async ({ node }) => {
+              const { url } = node.fields;
+              return `<iframe src="https://www.youtube.com/embed/${url.split(
+                "v="
+              )[1]}" />`;
+            }
+          }
+        },
         node: EmbedNode,
-      },
+      }),
     ],
     generateSchemaMap: ({ schemaMap }) => {
       const fields = [urlField];
