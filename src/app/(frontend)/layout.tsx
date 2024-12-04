@@ -93,11 +93,11 @@ export default async function RootLayout({
         <Providers>
           <div className="flex min-h-screen flex-col justify-between">
             <div>
-              <AdminBar
+              {/* <AdminBar
                 adminBarProps={{
                   preview: isEnabled,
                 }}
-              />
+              /> */}
               <LivePreviewListener />
 
               <Header />

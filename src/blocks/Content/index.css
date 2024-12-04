@@ -2,20 +2,10 @@
     color: #F66D00 !important;
     font-size: 20px !important;
     font-weight: 400 !important;
-    margin-left: 10% !important;
 }
 
 .content-block h2 {
     color: #0096A0 !important;
     font-size: 34px !important;
     font-weight: 500 !important;
-    margin-left: 10% !important;
-}
-
-.content-block p {
-    color: #454545 !important;
-    font-size: 16px !important;
-    font-weight: 400 !important;
-    margin-left: 10% !important;
-    margin-right: 10% !important;
 }

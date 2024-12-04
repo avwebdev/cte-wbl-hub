@@ -23,9 +23,6 @@ const config: Config = {
         ".clip-slant": {
           clipPath: theme("clipPath.slant"),
         },
-        ".clip-arc": {
-          clipPath: theme("clipPath.arc")
-        }
       });
     },
   ],
@@ -77,7 +74,6 @@ const config: Config = {
       },
       clipPath: {
         slant: "polygon(0 0, 100% 0, 100% 85%, 0 100%)",
-        arc: 'path("M 0% 100% C 30% 81.8% 70% 81.8% 100% 100% L 100% 0% L 0% 0% L 0% 100% Z")',
       },
       colors: {
         accent: {

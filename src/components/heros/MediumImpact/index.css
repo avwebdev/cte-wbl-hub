@@ -1,7 +1,0 @@
-.medium-impact-hero h1 {
-    @apply ~sm/2xl:~text-3xl/6xl;
-}
-
-.medium-impact-hero h2 h3 h4 {
-    @apply !mt-0 !font-light ~sm/2xl:~text-base/2xl;
-}

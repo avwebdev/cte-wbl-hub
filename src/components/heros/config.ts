@@ -56,13 +56,23 @@ export const hero: Field = {
     linkGroup({
       overrides: {
         maxRows: 2,
+        admin: {
+          condition: (data, siblingData, { user }) => {
+            if (data.type == "highImpact") {
+              return true;
+            } else {
+              return false;
+            }
+          },
+        },
       },
     }),
     {
       name: "media",
       type: "upload",
       admin: {
-        condition: (_, { type } = {}) => ["highImpact", "mediumImpact"].includes(type),
+        condition: (_, { type } = {}) =>
+          ["highImpact", "mediumImpact"].includes(type),
       },
       relationTo: "media",
       required: true,
