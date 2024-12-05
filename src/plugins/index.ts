@@ -1,16 +1,16 @@
 import { formBuilderPlugin } from "@payloadcms/plugin-form-builder";
 // import { nestedDocsPlugin } from "@payloadcms/plugin-nested-docs";
 import { redirectsPlugin } from "@payloadcms/plugin-redirects";
-import { searchPlugin } from "@payloadcms/plugin-search";
+// import { searchPlugin } from "@payloadcms/plugin-search";
 import { seoPlugin } from "@payloadcms/plugin-seo";
-import { GenerateTitle, GenerateURL } from "@payloadcms/plugin-seo/types";
+import type { GenerateTitle, GenerateURL } from "@payloadcms/plugin-seo/types";
 import {
   FixedToolbarFeature,
   HeadingFeature,
   lexicalEditor,
 } from "@payloadcms/richtext-lexical";
 import { s3Storage } from "@payloadcms/storage-s3";
-import { Plugin } from "payload";
+import type { Plugin } from "payload";
 import { revalidateRedirects } from "@/hooks/revalidateRedirects";
 import { Page } from "@/payload-types";
 

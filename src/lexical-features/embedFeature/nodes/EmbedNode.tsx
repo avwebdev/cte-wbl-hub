@@ -2,7 +2,6 @@ import {
   DecoratorBlockNode,
   SerializedDecoratorBlockNode,
 } from "@lexical/react/LexicalDecoratorBlockNode";
-import { createNode } from "@payloadcms/richtext-lexical";
 import type {
   DOMExportOutput,
   ElementFormatType,
@@ -70,7 +69,8 @@ export class EmbedNode extends DecoratorBlockNode {
   }
 
   /**
-   * The data for this node is stored serialized as JSON. This is the "load function" of that node: it takes the saved data and converts it into a node.
+   * The data for this node is stored serialized as JSON. This is the"load function" of that
+   * node: it takes the saved data and converts it into a node.
    */
   static importJSON(serializedNode: SerializedEmbedNode): EmbedNode {
     const importedData: EmbedNodeData = {

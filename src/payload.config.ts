@@ -1,19 +1,18 @@
-// storage-adapter-import-placeholder
 import { postgresAdapter } from "@payloadcms/db-postgres";
 
 import { buildConfig } from "payload";
-import sharp from "sharp"; // sharp-import
+import sharp from "sharp";
 import path from "path";
 import { fileURLToPath } from "url";
 
+import { Media } from "@/collections/Media";
+import { Pages } from "@/collections/Pages";
+import { Users } from "@/collections/Users";
+import { Footer } from "@/components/Footer/config";
+import { Header } from "@/components/Header/config";
 import { defaultLexical } from "@/fields/defaultLexical";
-import { Media } from "./collections/Media";
-import { Pages } from "./collections/Pages";
-import { Users } from "./collections/Users";
-import { Footer } from "./components/Footer/config";
-import { Header } from "./components/Header/config";
-import { plugins } from "./plugins";
-import { getServerSideURL } from "./utilities/getURL";
+import { plugins } from "@/plugins";
+import { getServerSideURL } from "@/utilities/getURL";
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);

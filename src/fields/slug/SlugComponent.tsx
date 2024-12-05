@@ -1,6 +1,6 @@
 "use client";
 import { Button, FieldLabel, TextInput, useField, useForm, useFormFields } from "@payloadcms/ui";
-import { TextFieldClientProps } from "payload";
+import type { TextFieldClientProps } from "payload";
 import React, { useCallback, useEffect } from "react";
 
 

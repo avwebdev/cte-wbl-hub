@@ -6,21 +6,23 @@ import type { Page } from "@/payload-types";
 import { cn } from "src/utilities/cn";
 
 type CMSLinkType = {
-  appearance?: "inline" | ButtonProps["variant"]
-  children?: React.ReactNode
-  className?: string
-  label?: string | null
-  newTab?: boolean | null
+  appearance?: "inline" | ButtonProps["variant"];
+  children?: React.ReactNode;
+  className?: string;
+  label?: string | null;
+  newTab?: boolean | null;
   reference?: {
-    relationTo: "pages"
-    value: Page | string | number
-  } | null
-  size?: ButtonProps["size"] | null
-  type?: "custom" | "reference" | null
-  url?: string | null
-}
+    relationTo: "pages";
+    value: Page | string | number;
+  } | null;
+  size?: ButtonProps["size"] | null;
+  type?: "custom" | "reference" | null;
+  url?: string | null;
+};
 
-export const CMSLink: React.FC<CMSLinkType & { style?: React.CSSProperties }> = (props) => {
+export const CMSLink: React.FC<
+  CMSLinkType & { style?: React.CSSProperties }
+> = (props) => {
   const {
     type,
     appearance = "inline",
@@ -35,21 +37,30 @@ export const CMSLink: React.FC<CMSLinkType & { style?: React.CSSProperties }> = 
   } = props;
 
   const href =
-    type === "reference" && typeof reference?.value === "object" && reference.value.slug
+    type === "reference" &&
+    typeof reference?.value === "object" &&
+    reference.value.slug
       ? `${reference?.relationTo !== "pages" ? `/${reference?.relationTo}` : ""}/${
-        reference.value.slug
-      }`
+          reference.value.slug
+        }`
       : url;
 
   if (!href) return null;
 
   const size = appearance === "link" ? "clear" : sizeFromProps;
-  const newTabProps = newTab ? { rel: "noopener noreferrer", target: "_blank" } : {};
+  const newTabProps = newTab
+    ? { rel: "noopener noreferrer", target: "_blank" }
+    : {};
 
   /* Ensure we don't break any styles set by richText */
   if (appearance === "inline") {
     return (
-      <Link className={cn(className)} style={style} href={href || url || ""} {...newTabProps}>
+      <Link
+        className={cn(className)}
+        style={style}
+        href={href || url || ""}
+        {...newTabProps}
+      >
         {label && label}
         {children && children}
       </Link>
@@ -58,7 +69,12 @@ export const CMSLink: React.FC<CMSLinkType & { style?: React.CSSProperties }> = 
 
   return (
     <Button asChild className={className} size={size} variant={appearance}>
-      <Link className={cn(className)} style={style} href={href || url || ""} {...newTabProps}>
+      <Link
+        className={cn(className)}
+        style={style}
+        href={href || url || ""}
+        {...newTabProps}
+      >
         {label && label}
         {children && children}
       </Link>
@@ -72,10 +88,13 @@ export const resolveLink = (link: Partial<CMSLinkType>) => {
   }
 
   if (link.type === "reference" && link.reference) {
-    if (typeof link.reference.value === "object" && "slug" in link.reference.value) {
+    if (
+      typeof link.reference.value === "object" &&
+      "slug" in link.reference.value
+    ) {
       return `/${link.reference.relationTo}/${(link.reference.value as Page).slug}`;
     }
   }
 
   return null;
-}
+};

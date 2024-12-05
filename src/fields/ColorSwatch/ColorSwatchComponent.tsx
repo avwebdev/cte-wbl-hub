@@ -220,7 +220,7 @@ export const ColorSwatchComponent: React.FC<ColorSwatchProps> = ({
       )}
       {!isAdding && (
         <Fragment>
-          <ul className="flex flex-wrap list-none p-0 m-0">
+          <ul className="m-0 flex list-none flex-wrap p-0">
             {defaultColorOptions.map((color, i) => (
               <li key={i}>
                 <button

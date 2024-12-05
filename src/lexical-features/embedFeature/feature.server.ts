@@ -1,5 +1,5 @@
-import { createServerFeature, createNode } from "@payloadcms/richtext-lexical";
-import type { Field, TextField } from "payload";
+import { createNode, createServerFeature } from "@payloadcms/richtext-lexical";
+import type { TextField } from "payload";
 
 import { EmbedNode } from "./nodes/EmbedNode";
 
