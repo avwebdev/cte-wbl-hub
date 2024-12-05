@@ -151,7 +151,7 @@ interface ColorSwatchProps {
   allowTailwindColors?: boolean;
   tailwindColorWhitelist?: string[];
   allowHexColors?: boolean;
-  overrides?: Partial<TextField>;
+  overrides?: Partial<Omit<TextField, "name" | "type" | "hasMany" | "minRows" | "maxRows" | "validate">>;
 }
 
 type ColorSwatchField = ({
@@ -193,7 +193,7 @@ export const colorSwatchField: ColorSwatchField = ({
         return true;
       return "This field is required";
     },
-    ...(overrides as Partial<Omit<TextField, "name" | "type">>),
+    ...(overrides),
     admin: {
       position: "sidebar",
       ...("admin" in overrides ? (overrides.admin as object) : {}),

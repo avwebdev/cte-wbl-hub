@@ -17,7 +17,7 @@
     "no-var": "warn",
     "prefer-const": "warn",
     "no-undef": "warn",
-    "no-unused-vars": "warn",
+    "no-unused-vars": "off",
     "sort-imports": [
       "warn",
       { "ignoreCase": true, "ignoreDeclarationSort": true }
