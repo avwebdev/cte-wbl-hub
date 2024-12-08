@@ -31,7 +31,7 @@ export const HighImpactHero: React.FC<Page["hero"]> = ({
           {richText && (
             <RichText
               className="mb-6 [&>:is(h2,h3,h4,h5)]:mt-0 [&>:is(h2,h3,h4,h5)]:font-thin"
-              content={richText}
+              data={richText}
               enableGutter={false}
             />
           )}

@@ -26,10 +26,7 @@ type ColorSwatchProps = {
   readonly allowHexColors: boolean;
 } & TextFieldClientProps;
 
-function isTailwindColor(
-  color: string,
-  tailwindColorWhitelist: string[],
-): boolean {
+function isTailwindColor(color: string, tailwindColorWhitelist: string[]): boolean {
   return !!color && tailwindColorWhitelist.includes(color);
 }
 
@@ -49,24 +46,22 @@ export const ColorSwatchComponent: React.FC<ColorSwatchProps> = ({
 
   const { value = "", setValue } = useField({ path });
 
-  const defaultPreferenceKey = (useGlobalPreferences ? "" : `${field.name}-`) + "default-color-swatch-colors";
-  const customPreferenceKey = (useGlobalPreferences ? "" : `${field.name}-`) + "custom-color-swatch-colors";
-
   const { getPreference, setPreference } = usePreferences();
+
+  const defaultPreferenceKey = `${useGlobalPreferences ? "" : `${field.name}-`}default-color-swatch-colors`;
+  const customPreferenceKey = `${useGlobalPreferences ? "" : `${field.name}-`}custom-color-swatch-colors`;
 
   const [defaultColorOptions, setDefaultColorOptions] = useState([
     allowNull && null, // default options will include an array of null (if configured)
-    ...defaultColors.filter((element: string) => {
-      // Filter any user input to ensure they're proper values
-      return (
+    ...defaultColors.filter(
+      (element: string) =>
+        // Filter any user input to ensure they're proper values
         (allowHexColors && element.startsWith("#")) || // If hex value
-        (allowTailwindColors &&
-          isTailwindColor(element, tailwindColorWhitelist)) // If a tailwind color
-      );
-    }),
+        (allowTailwindColors && isTailwindColor(element, tailwindColorWhitelist)), // If a tailwind color
+    ),
   ]);
-  const [customColorOptions, setCustomColorOptions] = useState<string[]>([]);
 
+  const [customColorOptions, setCustomColorOptions] = useState<string[]>([]);
   const [isAdding, setIsAdding] = useState(false);
   const [colorToAdd, setColorToAdd] = useState("");
   const [selectedTailwindColor, setSelectedTailwindColor] = useState("");
@@ -76,32 +71,23 @@ export const ColorSwatchComponent: React.FC<ColorSwatchProps> = ({
       // If custom colors are allowed, then get the user's color preferences
       const getColorPreferences = async () => {
         if (!lockDefaultColors) {
-          const defaultColorPreferences =
-            await getPreference<string[]>(defaultPreferenceKey);
+          const defaultPrefs = await getPreference<string[]>(defaultPreferenceKey);
 
-          if (
-            defaultColorPreferences &&
-            defaultColorPreferences !== undefined &&
-            defaultColorPreferences.length != 0
-          ) {
-            setDefaultColorOptions(defaultColorPreferences);
+          if (defaultPrefs?.length) {
+            setDefaultColorOptions(defaultPrefs);
           }
         }
 
-        const customColorPreferences =
-          await getPreference<string[]>(customPreferenceKey);
+        const customPrefs = await getPreference<string[] | null>(customPreferenceKey);
 
-        if (
-          customColorPreferences &&
-          customColorPreferences !== undefined &&
-          customColorPreferences.length != 0
-        ) {
-          setCustomColorOptions(customColorPreferences);
+        if (customPrefs?.length) {
+          setCustomColorOptions(customPrefs);
         }
       };
 
       getColorPreferences();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleAddColor = useCallback(() => {
@@ -121,14 +107,12 @@ export const ColorSwatchComponent: React.FC<ColorSwatchProps> = ({
 
     // Store the user color preferences for future use
     setPreference(customPreferenceKey, newOptions);
-  }, [value, colorToAdd, customColorOptions, setPreference]);
+  }, [setValue, colorToAdd, customColorOptions, setPreference, customPreferenceKey]);
 
   const handleRemoveColor = useCallback(() => {
     if (!lockDefaultColors && defaultColorOptions.includes(value as string)) {
       // Remove the color
-      const newOptions = defaultColorOptions.filter((color) => {
-        return color !== value;
-      });
+      const newOptions = defaultColorOptions.filter((color) => color !== value);
 
       // Update state with new colors
       setDefaultColorOptions(newOptions);
@@ -137,9 +121,7 @@ export const ColorSwatchComponent: React.FC<ColorSwatchProps> = ({
       setPreference(defaultPreferenceKey, newOptions);
     } else {
       // Remove the color
-      const newOptions = customColorOptions.filter((color) => {
-        return color !== value;
-      });
+      const newOptions = customColorOptions.filter((color) => color !== value);
 
       // Update state with new colors
       setCustomColorOptions(newOptions);
@@ -149,19 +131,28 @@ export const ColorSwatchComponent: React.FC<ColorSwatchProps> = ({
     }
 
     setValue("");
-  }, [value, defaultColorOptions, customColorOptions, setPreference]);
+  }, [
+    lockDefaultColors,
+    defaultColorOptions,
+    value,
+    setValue,
+    setPreference,
+    defaultPreferenceKey,
+    customColorOptions,
+    customPreferenceKey,
+  ]);
 
   const showRemoveButton: boolean =
     !!value && // Display remove color button
     allowUserPreferences && // If custom colors are allowed
-    ((lockDefaultColors && !defaultColors.includes(value as string)) ||
-      !lockDefaultColors); // If value isn't in default colors, and default colors are locked
+    // If value isn't in default colors and default colors are locked
+    (!lockDefaultColors || !defaultColors.includes(value as string));
 
   return (
     <div className={baseClass}>
       <FieldLabel htmlFor={path} label={label} />
 
-      {isAdding && (
+      {isAdding ? (
         <div>
           {allowTailwindColors && (
             <>
@@ -217,8 +208,7 @@ export const ColorSwatchComponent: React.FC<ColorSwatchProps> = ({
             Cancel
           </Button>
         </div>
-      )}
-      {!isAdding && (
+      ) : (
         <Fragment>
           <ul className="m-0 flex list-none flex-wrap p-0">
             {defaultColorOptions.map((color, i) => (
@@ -226,26 +216,20 @@ export const ColorSwatchComponent: React.FC<ColorSwatchProps> = ({
                 <button
                   type="button"
                   key={color ? color : "transparent"}
-                  className={`chip ${!color ? "no-color" : ""} ${
-                    color === value ? "chip--selected" : ""
-                  } ${
-                    color &&
-                    isTailwindColor(color, tailwindColorWhitelist) &&
-                    color
-                  } chip--clickable`}
+                  className={`relative m-1 size-10 rounded-full border border-transparent shadow-[0px_0px_4px_rgba(0,0,0,0.5)] ${!color && "no-color"} ${
+                    color === value && "border-white shadow-[0px_0px_8px_rgba(0,0,0,0.5)]"
+                  } ${color && isTailwindColor(color, tailwindColorWhitelist) && color} cursor-pointer`}
                   style={
                     // Hex values should be inline background
                     {
-                      backgroundColor: (color && color.startsWith("#")) ? color : undefined,
+                      backgroundColor: color && color.startsWith("#") ? color : undefined,
                     }
                   }
                   onClick={() => setValue(color)}
                   title={color || undefined}
                 >
                   {
-                    color &&
-                      !color.startsWith("#") &&
-                      String.fromCharCode(65 + i) + String.fromCharCode(97 + i) // Generate Alphanumeric text
+                    color && !color.startsWith("#") && String.fromCharCode(65 + i) + String.fromCharCode(97 + i) // Generate Alphanumeric text
                   }
                 </button>
               </li>
@@ -263,8 +247,7 @@ export const ColorSwatchComponent: React.FC<ColorSwatchProps> = ({
                       style={
                         // Hex values should be inline background
                         {
-                          backgroundColor:
-                            (color && color.startsWith("#")) ? color : undefined,
+                          backgroundColor: color && color.startsWith("#") ? color : undefined,
                         }
                       }
                       onClick={() => setValue(color)}
@@ -275,10 +258,7 @@ export const ColorSwatchComponent: React.FC<ColorSwatchProps> = ({
                         String.fromCharCode(
                           // Generate Alphanumeric text
                           65 + i + defaultColorOptions.length + 1,
-                        ) +
-                          String.fromCharCode(
-                            97 + i + defaultColorOptions.length + 1,
-                          )}
+                        ) + String.fromCharCode(97 + i + defaultColorOptions.length + 1)}
                     </button>
                   </li>
                 ))}

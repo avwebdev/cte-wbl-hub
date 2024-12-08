@@ -9,10 +9,10 @@ import type { CollectionConfig } from "payload";
 
 import { authenticated } from "@/access/authenticated";
 import { authenticatedOrPublished } from "@/access/authenticatedOrPublished";
-import { CallToAction } from "@/blocks/CallToAction/config";
-import { Content } from "@/blocks/Content/config";
-import { FormBlock } from "@/blocks/Form/config";
-import { MediaBlock } from "@/blocks/MediaBlock/config";
+import { CallToAction } from "@/components/blocks/CallToAction/config";
+import { Content } from "@/components/blocks/Content/config";
+import { FormBlock } from "@/components/blocks/Form/config";
+import { MediaBlock } from "@/components/blocks/MediaBlock/config";
 import { hero } from "@/components/heros/config";
 import { slugField } from "@/fields/slug";
 import { populatePublishedAt } from "@/hooks/populatePublishedAt";
@@ -31,7 +31,7 @@ export const Pages: CollectionConfig<"pages"> = {
   },
   // This config controls what's populated by default when a page is referenced
   // https://payloadcms.com/docs/queries/select#defaultpopulate-collection-config-property
-  // Type safe if the collection slug generic is passed to `CollectionConfig` - `CollectionConfig<'pagess'>
+  // Type safe if the collection slug generic is passed to `CollectionConfig` - `CollectionConfig<'pages'>
   defaultPopulate: {
     title: true,
     slug: true,

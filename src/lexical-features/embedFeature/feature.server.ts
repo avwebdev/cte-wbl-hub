@@ -1,6 +1,7 @@
 import { createNode, createServerFeature } from "@payloadcms/richtext-lexical";
-import type { TextField } from "payload";
+import type { FieldSchemaMap, TextField } from "payload";
 
+import { getVideoEmbedUrl } from "@/utilities/getVideoEmbedUrl";
 import { EmbedNode } from "./nodes/EmbedNode";
 
 const urlField: TextField = {
@@ -11,8 +12,7 @@ const urlField: TextField = {
 
 export const EmbedFeature = createServerFeature({
   feature: {
-    ClientFeature:
-      "/lexical-features/embedFeature/feature.client#EmbedFeatureClient",
+    ClientFeature: "/lexical-features/embedFeature/feature.client#EmbedFeatureClient",
     nodes: [
       createNode({
         converters: {
@@ -20,20 +20,21 @@ export const EmbedFeature = createServerFeature({
             nodeTypes: ["EmbedNode"],
             converter: async ({ node }) => {
               const { url } = node.fields;
-              return `<iframe src="https://www.youtube.com/embed/${url.split(
-                "v="
-              )[1]}" />`;
-            }
-          }
+
+              return getVideoEmbedUrl(url);
+            },
+          },
         },
         node: EmbedNode,
       }),
     ],
     generateSchemaMap: ({ schemaMap }) => {
-      const fields = [urlField];
-      schemaMap.set("fields", { fields });
+      const newSchemaMap: FieldSchemaMap = new Map();
 
-      return schemaMap;
+      const fields = [urlField];
+      newSchemaMap.set("fields", { fields });
+
+      return newSchemaMap;
     },
   },
   key: "embed",

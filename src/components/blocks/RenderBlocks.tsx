@@ -1,9 +1,9 @@
 import React, { Fragment } from "react";
 
-import { CallToActionBlock } from "@/blocks/CallToAction/Component";
-import { ContentBlock } from "@/blocks/Content/Component";
-import { FormBlock } from "@/blocks/Form/Component";
-import { MediaBlock } from "@/blocks/MediaBlock/Component";
+import { CallToActionBlock } from "@/components/blocks/CallToAction/Component";
+import { ContentBlock } from "@/components/blocks/Content/Component";
+import { FormBlock } from "@/components/blocks/Form/Component";
+import { MediaBlock } from "@/components/blocks/MediaBlock/Component";
 import type { Page } from "@/payload-types";
 
 const blockComponents = {

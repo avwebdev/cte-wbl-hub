@@ -57,7 +57,7 @@ export const hero: Field = {
       overrides: {
         maxRows: 2,
         admin: {
-          condition: (data, siblingData, { user }) => {
+          condition: (data) => {
             if (data.type == "highImpact") {
               return true;
             } else {
@@ -80,6 +80,7 @@ export const hero: Field = {
     colorSwatchField({
       defaultColors: ["#000", "#fff", "#0096a0", "#ff6e14", "#73b400"],
       overrides: {
+        label: "Image Tint Color",
         required: true,
       },
     }),

@@ -14,6 +14,8 @@ export interface Config {
     pages: Page;
     media: Media;
     users: User;
+    'job-postings': JobPosting;
+    'job-categories': JobCategory;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -26,6 +28,8 @@ export interface Config {
     pages: PagesSelect<false> | PagesSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
+    'job-postings': JobPostingsSelect<false> | JobPostingsSelect<true>;
+    'job-categories': JobCategoriesSelect<false> | JobCategoriesSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
@@ -287,6 +291,7 @@ export interface ContentBlock {
           label: string;
           appearance?: ('default' | 'outline') | null;
         };
+        shrinkHeight?: boolean | null;
         id?: string | null;
       }[]
     | null;
@@ -514,6 +519,63 @@ export interface User {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "job-postings".
+ */
+export interface JobPosting {
+  id: number;
+  title: string;
+  status: 'open' | 'closed' | 'draft';
+  company: string;
+  location?: string | null;
+  employmentType: 'full-time' | 'part-time' | 'contract' | 'internship';
+  salaryRange?: {
+    min?: number | null;
+    max?: number | null;
+    currency?: string | null;
+  };
+  description: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  qualifications?:
+    | {
+        requirement: string;
+        id?: string | null;
+      }[]
+    | null;
+  applicationInstructions?: string | null;
+  publishedAt?: string | null;
+  jobCategory: number | JobCategory;
+  slug?: string | null;
+  slugLock?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "job-categories".
+ */
+export interface JobCategory {
+  id: number;
+  title: string;
+  description?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
 export interface Redirect {
@@ -565,6 +627,14 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'users';
         value: number | User;
+      } | null)
+    | ({
+        relationTo: 'job-postings';
+        value: number | JobPosting;
+      } | null)
+    | ({
+        relationTo: 'job-categories';
+        value: number | JobCategory;
       } | null)
     | ({
         relationTo: 'redirects';
@@ -693,6 +763,7 @@ export interface PagesSelect<T extends boolean = true> {
                           label?: T;
                           appearance?: T;
                         };
+                    shrinkHeight?: T;
                     id?: T;
                   };
               id?: T;
@@ -828,6 +899,49 @@ export interface UsersSelect<T extends boolean = true> {
   hash?: T;
   loginAttempts?: T;
   lockUntil?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "job-postings_select".
+ */
+export interface JobPostingsSelect<T extends boolean = true> {
+  title?: T;
+  status?: T;
+  company?: T;
+  location?: T;
+  employmentType?: T;
+  salaryRange?:
+    | T
+    | {
+        min?: T;
+        max?: T;
+        currency?: T;
+      };
+  description?: T;
+  qualifications?:
+    | T
+    | {
+        requirement?: T;
+        id?: T;
+      };
+  applicationInstructions?: T;
+  publishedAt?: T;
+  jobCategory?: T;
+  slug?: T;
+  slugLock?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "job-categories_select".
+ */
+export interface JobCategoriesSelect<T extends boolean = true> {
+  title?: T;
+  description?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

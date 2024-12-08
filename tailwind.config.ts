@@ -154,7 +154,7 @@ const config: Config = {
       },
       fontFamily: {
         mono: ["var(--font-geist-mono)"],
-        sans: ["var(--font-geist-sans)"],
+        sans: ["var(--font-untitled-sans)"],
       },
       keyframes: {
         "accordion-down": {

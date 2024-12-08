@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 import { getServerSideURL } from "./getURL";
 import { mergeOpenGraph } from "./mergeOpenGraph";
-import type { Page } from "../payload-types";
+import type { Page } from "@/payload-types";
 
 
 export const generateMeta = async (args: {

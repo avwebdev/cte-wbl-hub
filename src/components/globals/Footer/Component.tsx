@@ -17,7 +17,7 @@ export async function Footer() {
     <footer className="relative bottom-0 left-0 w-full">
       <div className="bg-blue-chill-700 text-black">
         <div className="flex items-center justify-center py-8 text-center">
-          {richText && <RichText content={richText} enableGutter={false} />}
+          {richText && <RichText data={richText} enableGutter={false} />}
         </div>
       </div>
       <div className="prose flex max-w-none items-center justify-center gap-3 bg-black py-3 text-white">

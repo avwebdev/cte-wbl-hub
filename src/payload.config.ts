@@ -5,11 +5,13 @@ import sharp from "sharp";
 import path from "path";
 import { fileURLToPath } from "url";
 
+import { JobCategories } from "@/collections/JobCategory";
+import { JobPostings } from "@/collections/JobPostings";
 import { Media } from "@/collections/Media";
 import { Pages } from "@/collections/Pages";
 import { Users } from "@/collections/Users";
-import { Footer } from "@/components/Footer/config";
-import { Header } from "@/components/Header/config";
+import { Footer } from "@/components/globals/Footer/config";
+import { Header } from "@/components/globals/Header/config";
 import { defaultLexical } from "@/fields/defaultLexical";
 import { plugins } from "@/plugins";
 import { getServerSideURL } from "@/utilities/getURL";
@@ -19,13 +21,14 @@ const dirname = path.dirname(filename);
 
 export default buildConfig({
   admin: {
-    components: {
-      // The `BeforeLogin` component renders a message that you see while logging into your admin panel.
-      // Feel free to delete this at any time. Simply remove the line below and the import `BeforeLogin` statement on line 15.
-      beforeLogin: ["@/components/BeforeLogin"],
-    },
     importMap: {
       baseDir: path.resolve(dirname),
+    },
+    components: {
+      graphics: {
+        Icon: "/components/Logo/Logo#Logo",
+        Logo: "/components/Logo/Logo#LogoWithText",
+      },
     },
     user: Users.slug,
     livePreview: {
@@ -57,17 +60,14 @@ export default buildConfig({
     pool: {
       connectionString: process.env.DATABASE_URI || "",
     },
-    push: false, // Set to true to push schema changes to the database
+    // push: false, // Set to true to push schema changes to the database
     // Set to false because of long development time when making
     // changes completely unrelated to schema
   }),
-  collections: [Pages, Media, Users],
+  collections: [Pages, Media, Users, JobPostings, JobCategories],
   cors: [getServerSideURL()].filter(Boolean),
   globals: [Header, Footer],
-  plugins: [
-    ...plugins,
-    // storage-adapter-placeholder
-  ],
+  plugins: [...plugins],
   secret: process.env.PAYLOAD_SECRET,
   sharp,
   typescript: {

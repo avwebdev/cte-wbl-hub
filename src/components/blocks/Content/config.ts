@@ -59,6 +59,10 @@ const columnFields: Field[] = [
       },
     },
   }),
+  {
+    name: "shrinkHeight",
+    type: "checkbox",
+  },
 ];
 
 export const Content: Block = {

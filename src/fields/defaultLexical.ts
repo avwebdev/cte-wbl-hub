@@ -5,6 +5,7 @@ import {
   LinkFeature,
   ParagraphFeature,
   UnderlineFeature,
+  UploadFeature,
 } from "@payloadcms/richtext-lexical";
 import type { Config } from "payload";
 import { EmbedFeature } from "@/lexical-features/embedFeature/feature.server";
@@ -38,7 +39,8 @@ export const defaultLexical: Config["editor"] = lexicalEditor({
           ];
         },
       }),
-      // EmbedFeature(),
+      UploadFeature(),
+      EmbedFeature(),
     ];
   },
 });

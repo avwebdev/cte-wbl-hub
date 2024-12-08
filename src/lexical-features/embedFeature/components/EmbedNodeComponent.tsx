@@ -1,10 +1,11 @@
 import "./index.scss";
 
-import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext.js";
+import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import { Button } from "@payloadcms/ui";
 import { $getNodeByKey } from "lexical";
 import React, { useCallback } from "react";
 
+import { getVideoEmbedUrl } from "@/utilities/getVideoEmbedUrl";
 import { EmbedNodeData, OPEN_EMBED_DRAWER_COMMAND } from "../nodes/EmbedNode";
 
 type Props = {
@@ -17,7 +18,8 @@ const baseClass = "embed-node";
 export const EmbedNodeComponent: React.FC<Props> = (props) => {
   const { data, nodeKey } = props;
   const [editor] = useLexicalComposerContext();
-  const videoSrc = `https://www.youtube.com/embed/${data.url.split("v=")[1]}`;
+
+  const videoSrc = getVideoEmbedUrl(data.url);
 
   const removeEmbed = useCallback(() => {
     editor.update(() => {

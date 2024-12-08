@@ -5,7 +5,7 @@ import { getPayload } from "payload";
 import React, { cache } from "react";
 
 
-import { RenderBlocks } from "@/blocks/RenderBlocks";
+import { RenderBlocks } from "@/components/blocks/RenderBlocks";
 import { RenderHero } from "@/components/heros/RenderHero";
 import { PayloadRedirects } from "@/components/PayloadRedirects";
 import type { Page as PageType } from "@/payload-types";

@@ -31,12 +31,12 @@ export const EmbedPlugin: PluginComponent = () => {
   const [editor] = useLexicalComposerContext();
   const { closeModal, toggleModal } = useModal();
   const [lastSelection, setLastSelection] = useState<RangeSelection | null>();
-  const [embedData, setEmbedData] = useState<EmbedNodeData | {}>({});
+  // Record<never, never> is empty object, used instead of {}
+  const [embedData, setEmbedData] = useState<EmbedNodeData | Record<never, never>>({});
   const [targetNodeKey, setTargetNodeKey] = useState<string | null>(null);
 
   const {
-    editorConfig,
-    fieldProps: { readOnly, schemaPath },
+    fieldProps: { schemaPath },
   } = useEditorConfigContext();
 
   useEffect(() => {

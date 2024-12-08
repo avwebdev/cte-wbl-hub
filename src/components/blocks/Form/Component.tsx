@@ -1,6 +1,7 @@
 "use client";
 import type { Form as FormType } from "@payloadcms/plugin-form-builder/types";
 
+import type { SerializedEditorState } from "lexical";
 import { useRouter } from "next/navigation";
 import React, { useCallback, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
@@ -11,35 +12,39 @@ import { getClientSideURL } from "@/utilities/getURL";
 import { buildInitialFormState } from "./buildInitialFormState";
 import { fields } from "./fields";
 
-export type Value = unknown
+export type Value = unknown;
 
 export interface Property {
-  [key: string]: Value
+  [key: string]: Value;
 }
 
 export interface Data {
-  [key: string]: Property | Property[]
+  [key: string]: Property | Property[];
 }
 
 export type FormBlockType = {
-  blockName?: string
-  blockType?: "formBlock"
-  enableIntro: boolean
-  form: FormType
-  introContent?: {
-    [k: string]: unknown
-  }[]
-}
+  blockName?: string;
+  blockType?: "formBlock";
+  enableIntro: boolean;
+  form: FormType;
+  introContent?: SerializedEditorState;
+};
 
 export const FormBlock: React.FC<
   {
-    id?: string
+    id?: string;
   } & FormBlockType
 > = (props) => {
   const {
     enableIntro,
     form: formFromProps,
-    form: { id: formID, confirmationMessage, confirmationType, redirect, submitButtonLabel } = {},
+    form: {
+      id: formID,
+      confirmationMessage,
+      confirmationType,
+      redirect,
+      submitButtonLabel,
+    } = {},
     introContent,
   } = props;
 
@@ -55,7 +60,9 @@ export const FormBlock: React.FC<
 
   const [isLoading, setIsLoading] = useState(false);
   const [hasSubmitted, setHasSubmitted] = useState<boolean>();
-  const [error, setError] = useState<{ message: string; status?: string } | undefined>();
+  const [error, setError] = useState<
+    { message: string; status?: string } | undefined
+  >();
   const router = useRouter();
 
   const onSubmit = useCallback(
@@ -75,16 +82,19 @@ export const FormBlock: React.FC<
         }, 1000);
 
         try {
-          const req = await fetch(`${getClientSideURL()}/api/form-submissions`, {
-            body: JSON.stringify({
-              form: formID,
-              submissionData: dataToSend,
-            }),
-            headers: {
-              "Content-Type": "application/json",
+          const req = await fetch(
+            `${getClientSideURL()}/api/form-submissions`,
+            {
+              body: JSON.stringify({
+                form: formID,
+                submissionData: dataToSend,
+              }),
+              headers: {
+                "Content-Type": "application/json",
+              },
+              method: "POST",
             },
-            method: "POST",
-          });
+          );
 
           const res = await req.json();
 
@@ -128,15 +138,21 @@ export const FormBlock: React.FC<
   return (
     <div className="container lg:max-w-3xl">
       {enableIntro && introContent && !hasSubmitted && (
-        <RichText className="mb-8 lg:mb-12" content={introContent} enableGutter={false} />
+        <RichText
+          className="mb-8 lg:mb-12"
+          data={introContent}
+          enableGutter={false}
+        />
       )}
       <div className="rounded-[0.8rem] border border-border p-4 lg:p-6">
         <FormProvider {...formMethods}>
           {!isLoading && hasSubmitted && confirmationType === "message" && (
-            <RichText content={confirmationMessage} />
+            <RichText data={confirmationMessage} />
           )}
           {isLoading && !hasSubmitted && <p>Loading, please wait...</p>}
-          {error && <div>{`${error.status || "500"}: ${error.message || ""}`}</div>}
+          {error && (
+            <div>{`${error.status || "500"}: ${error.message || ""}`}</div>
+          )}
           {!hasSubmitted && (
             <form id={formID} onSubmit={handleSubmit(onSubmit)}>
               <div className="mb-4 last:mb-0">

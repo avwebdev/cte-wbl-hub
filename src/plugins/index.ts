@@ -32,15 +32,14 @@ export const plugins: Plugin[] = [
   redirectsPlugin({
     collections: ["pages"],
     overrides: {
-      // @ts-expect-error
       fields: ({ defaultFields }) => {
         return defaultFields.map((field) => {
           if ("name" in field && field.name === "from") {
             return {
               ...field,
               admin: {
-                description:
-                  "You will need to rebuild the website when changing this field.",
+                description: "You will need to rebuild the website when changing this field.",
+                components: {},
               },
             };
           }
