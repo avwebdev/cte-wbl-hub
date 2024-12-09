@@ -524,7 +524,7 @@ export interface User {
 export interface JobPosting {
   id: number;
   title: string;
-  status: 'open' | 'closed' | 'draft';
+  state: 'open' | 'closed' | 'draft';
   company: string;
   location?: string | null;
   employmentType: 'full-time' | 'part-time' | 'contract' | 'internship';
@@ -906,7 +906,7 @@ export interface UsersSelect<T extends boolean = true> {
  */
 export interface JobPostingsSelect<T extends boolean = true> {
   title?: T;
-  status?: T;
+  state?: T;
   company?: T;
   location?: T;
   employmentType?: T;

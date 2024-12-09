@@ -48,17 +48,17 @@ export const JobPostings: CollectionConfig<"job-postings"> = {
       type: "text",
       required: true,
     },
-    // {
-    //   name: "status",
-    //   type: "select",
-    //   options: [
-    //     { label: "Open", value: "open" },
-    //     { label: "Closed", value: "closed" },
-    //     { label: "Draft", value: "draft" },
-    //   ],
-    //   defaultValue: "open",
-    //   required: true,
-    // },
+    {
+      name: "state",
+      type: "select",
+      options: [
+        { label: "Open", value: "open" },
+        { label: "Closed", value: "closed" },
+        { label: "Draft", value: "draft" },
+      ],
+      defaultValue: "open",
+      required: true,
+    },
     {
       name: "company",
       type: "text",
