@@ -45,12 +45,12 @@ export const plugins: Plugin[] = [
       },
     },
   }),
-  // searchPlugin({
-  //   collections: ["pages"],
-  //   defaultPriorities: {
-  //     pages: 10,
-  //   },
-  // }),
+  searchPlugin({
+    collections: ["pages"],
+    defaultPriorities: {
+      pages: 10,
+    },
+  }),
   seoPlugin({
     generateTitle,
     generateURL,

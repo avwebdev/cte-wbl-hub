@@ -33,5 +33,11 @@ export const JobCategories: CollectionConfig<"job-categories"> = {
         placeholder: "Optional description of the category",
       },
     },
+    {
+      name: "jobs / opportunities",
+      type: "join",
+      on: "job-category",
+      collection: "job-postings",
+    },
   ],
 };

@@ -145,7 +145,7 @@ export const JobPostings: CollectionConfig<"job-postings"> = {
       },
     },
     {
-      name: "jobCategory",
+      name: "job-category",
       type: "relationship",
       relationTo: "job-categories",
       required: true,

@@ -17,13 +17,18 @@ export interface Config {
     'job-postings': JobPosting;
     'job-categories': JobCategory;
     redirects: Redirect;
+    search: Search;
     forms: Form;
     'form-submissions': FormSubmission;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
   };
-  collectionsJoins: {};
+  collectionsJoins: {
+    'job-categories': {
+      'jobs / opportunities': 'job-postings';
+    };
+  };
   collectionsSelect: {
     pages: PagesSelect<false> | PagesSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
@@ -31,6 +36,7 @@ export interface Config {
     'job-postings': JobPostingsSelect<false> | JobPostingsSelect<true>;
     'job-categories': JobCategoriesSelect<false> | JobCategoriesSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
+    search: SearchSelect<false> | SearchSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
@@ -556,7 +562,7 @@ export interface JobPosting {
     | null;
   applicationInstructions?: string | null;
   publishedAt?: string | null;
-  jobCategory: number | JobCategory;
+  'job-category': number | JobCategory;
   slug?: string | null;
   slugLock?: boolean | null;
   updatedAt: string;
@@ -571,6 +577,10 @@ export interface JobCategory {
   id: number;
   title: string;
   description?: string | null;
+  'jobs / opportunities'?: {
+    docs?: (number | JobPosting)[] | null;
+    hasNextPage?: boolean | null;
+  } | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -588,6 +598,21 @@ export interface Redirect {
       value: number | Page;
     } | null;
     url?: string | null;
+  };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "search".
+ */
+export interface Search {
+  id: number;
+  title?: string | null;
+  priority?: number | null;
+  doc: {
+    relationTo: 'pages';
+    value: number | Page;
   };
   updatedAt: string;
   createdAt: string;
@@ -639,6 +664,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'redirects';
         value: number | Redirect;
+      } | null)
+    | ({
+        relationTo: 'search';
+        value: number | Search;
       } | null)
     | ({
         relationTo: 'forms';
@@ -926,7 +955,7 @@ export interface JobPostingsSelect<T extends boolean = true> {
       };
   applicationInstructions?: T;
   publishedAt?: T;
-  jobCategory?: T;
+  'job-category'?: T;
   slug?: T;
   slugLock?: T;
   updatedAt?: T;
@@ -940,6 +969,7 @@ export interface JobPostingsSelect<T extends boolean = true> {
 export interface JobCategoriesSelect<T extends boolean = true> {
   title?: T;
   description?: T;
+  'jobs / opportunities'?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -956,6 +986,17 @@ export interface RedirectsSelect<T extends boolean = true> {
         reference?: T;
         url?: T;
       };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "search_select".
+ */
+export interface SearchSelect<T extends boolean = true> {
+  title?: T;
+  priority?: T;
+  doc?: T;
   updatedAt?: T;
   createdAt?: T;
 }
