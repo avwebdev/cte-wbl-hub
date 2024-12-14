@@ -60,7 +60,7 @@ export default buildConfig({
     pool: {
       connectionString: process.env.DATABASE_URI || "",
     },
-    // push: false, // Set to true to push schema changes to the database
+    push: false, // Set to true to push schema changes to the database
     // Set to false because of long development time when making
     // changes completely unrelated to schema
   }),
