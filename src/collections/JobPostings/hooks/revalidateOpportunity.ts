@@ -9,7 +9,7 @@ export const revalidateJobPosting: CollectionAfterChangeHook<JobPosting> = ({
   req: { payload, context },
 }) => {
   if (!context.disableRevalidate) {
-    if (doc.status === "open") {
+    if (doc._status === "published") {
       const path = `/job-posting/${doc.slug}`;
 
       payload.logger.info(`Revalidating job posting at path: ${path}`);
@@ -19,7 +19,7 @@ export const revalidateJobPosting: CollectionAfterChangeHook<JobPosting> = ({
     }
 
     // If the job posting was previously open and now is not, revalidate the old path
-    if (previousDoc?.status === "open" && doc.status !== "open") {
+    if (previousDoc?._status === "published" && doc._status !== "published") {
       const oldPath = `/job-posting/${previousDoc.slug}`;
 
       payload.logger.info(`Revalidating old job posting at path: ${oldPath}`);
