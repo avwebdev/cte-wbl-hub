@@ -19,7 +19,7 @@ import type {
   MediaBlock as MediaBlockProps,
 } from "@/payload-types";
 import { cn } from "@/utilities/cn";
-import { Embed } from "@/components/Embed/Component";
+import { Embed } from "@/components/Embed";
 
 type NodeTypes =
   | DefaultNodeTypes

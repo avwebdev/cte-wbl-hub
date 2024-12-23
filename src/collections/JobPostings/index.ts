@@ -7,6 +7,7 @@ import { populatePublishedAt } from "@/hooks/populatePublishedAt";
 import { generatePreviewPath } from "@/utilities/generatePreviewPath";
 import { getServerSideURL } from "@/utilities/getURL";
 import { revalidateDelete, revalidateJobPosting } from "./hooks/revalidateOpportunity";
+import { FixedToolbarFeature, HeadingFeature, InlineToolbarFeature, lexicalEditor } from "@payloadcms/richtext-lexical";
 
 export const JobPostings: CollectionConfig<"job-postings"> = {
   slug: "job-postings",
@@ -49,105 +50,90 @@ export const JobPostings: CollectionConfig<"job-postings"> = {
       required: true,
     },
     {
-      name: "state",
-      type: "select",
-      options: [
-        { label: "Open", value: "open" },
-        { label: "Closed", value: "closed" },
-        { label: "Draft", value: "draft" },
-      ],
-      defaultValue: "open",
-      required: true,
-    },
-    {
-      name: "company",
-      type: "text",
-      required: true,
-    },
-    {
-      name: "location",
-      type: "text",
-      required: false,
-      admin: {
-        placeholder: "e.g., San Francisco, Remote",
-      },
-    },
-    {
-      name: "employmentType",
-      type: "select",
-      options: [
-        { label: "Full-time", value: "full-time" },
-        { label: "Part-time", value: "part-time" },
-        { label: "Contract", value: "contract" },
-        { label: "Internship", value: "internship" },
-      ],
-      required: true,
-    },
-    {
-      name: "salaryRange",
+      name: "place",
       type: "group",
       fields: [
         {
-          name: "min",
-          type: "number",
-          required: false,
-          admin: {
-            placeholder: "Minimum salary",
-          },
-        },
-        {
-          name: "max",
-          type: "number",
-          required: false,
-          admin: {
-            placeholder: "Maximum salary",
-          },
-        },
-        {
-          name: "currency",
+          name: "name",
           type: "text",
-          required: false,
-          defaultValue: "USD",
+          required: true,
+        },
+        {
+          name: "subtitle",
+          type: "text",
+          admin: {
+            placeholder: "e.g., Awards Manufacturer, Restaurant",
+          },
+        },
+        {
+          name: "city",
+          type: "text",
+          required: true,
+          admin: {
+            placeholder: "e.g., San Francisco",
+          },
+        },
+        {
+          name: "logo",
+          type: "upload",
+          relationTo: "media",
+          required: true,
+        },
+        {
+          name: "images",
+          type: "array",
+          fields: [
+            {
+              name: "image",
+              type: "upload",
+              relationTo: "media",
+              required: false,
+            },
+          ],
         },
       ],
     },
     {
       name: "description",
       type: "richText",
+      editor: lexicalEditor({
+        features: ({ rootFeatures }) => {
+          return [
+            ...rootFeatures,
+            HeadingFeature({ enabledHeadingSizes: ["h2", "h3", "h4"] }),
+            FixedToolbarFeature(),
+            InlineToolbarFeature(),
+          ];
+        },
+      }),
       required: true,
     },
     {
-      name: "qualifications",
-      type: "array",
-      fields: [
-        {
-          name: "requirement",
-          type: "text",
-          required: true,
-        },
-      ],
-      admin: {
-        description: "List the required qualifications for the job.",
-      },
-    },
-    {
-      name: "applicationInstructions",
+      name: "hoursDescription",
       type: "text",
       admin: {
-        placeholder: "e.g., Send your resume to opportunities@example.com",
+        description: "Description of the hours (keep this text for extra flexibility)",
       },
     },
     {
-      name: "publishedAt",
-      type: "date",
-      admin: {
-        position: "sidebar",
-      },
+      name: "applicationTimeline",
+      type: "group",
+      fields: [
+        {
+          name: "applicationOpens",
+          type: "date",
+          required: false,
+          admin: {
+            description: "When the application opens or is coming soon",
+          },
+        },
+      ],
     },
     {
       name: "job-category",
       type: "relationship",
       relationTo: "job-categories",
+      hasMany: true,
       required: true,
     },
     ...slugField(),

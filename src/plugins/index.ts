@@ -12,6 +12,8 @@ import { Page } from "@/payload-types";
 
 import { getServerSideURL } from "@/utilities/getURL";
 
+import { googleOAuth } from "./google";
+
 const generateTitle: GenerateTitle<Page> = ({ doc }) => {
   return doc?.title ? `${doc.title} | CTE WBL Hub` : "CTE WBL Hub | Career and Technical Education Work-Based Learning";
 };
@@ -100,4 +102,5 @@ export const plugins: Plugin[] = [
       endpoint: process.env.S3_ENDPOINT,
     },
   }),
+  googleOAuth,
 ];

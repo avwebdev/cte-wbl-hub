@@ -29,6 +29,10 @@ export default buildConfig({
         Icon: "/components/Logo/Logo#Logo",
         Logo: "/components/Logo/Logo#LogoWithText",
       },
+      afterLogin: [
+        "src/components/OrDivider#OrDivider",
+        "src/components/GoogleOAuthLoginButton#GoogleOAuthLoginButton",
+      ],
     },
     user: Users.slug,
     livePreview: {
@@ -60,7 +64,7 @@ export default buildConfig({
     pool: {
       connectionString: process.env.DATABASE_URI || "",
     },
-    push: false, // Set to true to push schema changes to the database
+    // push: false, // true - automatically push schema changes to the database
     // Set to false because of long development time when making
     // changes completely unrelated to schema
   }),
