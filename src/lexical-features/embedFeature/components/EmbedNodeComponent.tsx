@@ -63,8 +63,9 @@ export const EmbedNodeComponent: React.FC<Props> = (props) => {
         </div>
       </div>
       <iframe
-        width="560"
-        height="315"
+        // width="560"
+        // height="315"
+        className="size-full"
         src={videoSrc}
         title="YouTube video player"
         frameBorder="0"

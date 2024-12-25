@@ -64,9 +64,14 @@ export default buildConfig({
     pool: {
       connectionString: process.env.DATABASE_URI || "",
     },
-    // push: false, // true - automatically push schema changes to the database
-    // Set to false because of long development time when making
-    // changes completely unrelated to schema
+    /**
+     * * The `push` option is used to automatically push schema changes to the database.
+     * true (default) - automatically push schema changes to the database
+     * false - don't automatically push schema changes to the database
+     * set to false due to long reload times when making changes with push enabled
+     * 
+    */
+    push: false,
   }),
   collections: [Pages, Media, Users, JobPostings, JobCategories],
   cors: [getServerSideURL()].filter(Boolean),

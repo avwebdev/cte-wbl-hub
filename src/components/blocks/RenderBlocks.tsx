@@ -4,6 +4,7 @@ import { CallToActionBlock } from "@/components/blocks/CallToAction/Component";
 import { ContentBlock } from "@/components/blocks/Content/Component";
 import { FormBlock } from "@/components/blocks/Form/Component";
 import { MediaBlock } from "@/components/blocks/MediaBlock/Component";
+import { JobsBlock } from "@/components/blocks/JobsBlock/Component";
 import type { Page } from "@/payload-types";
 
 const blockComponents = {
@@ -11,6 +12,7 @@ const blockComponents = {
   cta: CallToActionBlock,
   formBlock: FormBlock,
   mediaBlock: MediaBlock,
+  jobsBlock: JobsBlock,
 };
 
 export const RenderBlocks: React.FC<{

@@ -9,7 +9,7 @@
   border: 1px solid var(--theme-elevation-100);
   font-family: var(--font-body);
   margin: 0 0 1.5em;
-  width: 560px;
+  width: min(100%, 600px);
 
   &__controls {
     position: relative;
@@ -35,6 +35,6 @@
 
   iframe {
     width: 100%; // make iframe responsive by setting width to 100%
-    height: 315px;
+    aspect-ratio: 16 / 9;
   }
 }

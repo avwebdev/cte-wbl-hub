@@ -21,6 +21,19 @@ export const Users: CollectionConfig = {
       name: "name",
       type: "text",
     },
+    {
+      name: "sub",
+      type: "text",
+      index: true,
+      access: {
+        read: () => true,
+        create: () => false,
+        update: () => false,
+      },
+      admin: {
+        readOnly: true,
+      },
+    }
   ],
   timestamps: true,
 };

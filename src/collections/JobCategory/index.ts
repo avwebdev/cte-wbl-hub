@@ -34,9 +34,9 @@ export const JobCategories: CollectionConfig<"job-categories"> = {
       },
     },
     {
-      name: "jobs / opportunities",
+      name: "jobs",
       type: "join",
-      on: "job-category",
+      on: "categories",
       collection: "job-postings",
     },
   ],

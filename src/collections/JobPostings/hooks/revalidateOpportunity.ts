@@ -16,6 +16,7 @@ export const revalidateJobPosting: CollectionAfterChangeHook<JobPosting> = ({
 
       revalidatePath(path);
       revalidateTag("job-posting-sitemap");
+      revalidateTag("getRecentApplications");
     }
 
     // If the job posting was previously open and now is not, revalidate the old path
@@ -26,6 +27,7 @@ export const revalidateJobPosting: CollectionAfterChangeHook<JobPosting> = ({
 
       revalidatePath(oldPath);
       revalidateTag("job-posting-sitemap");
+      revalidateTag("getRecentApplications");
     }
   }
   return doc;
@@ -37,6 +39,7 @@ export const revalidateDelete: CollectionAfterDeleteHook<JobPosting> = ({ doc, r
 
     revalidatePath(path);
     revalidateTag("job-posting-sitemap");
+    revalidateTag("getRecentApplications");
   }
 
   return doc;

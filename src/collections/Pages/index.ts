@@ -13,13 +13,15 @@ import { CallToAction } from "@/components/blocks/CallToAction/config";
 import { Content } from "@/components/blocks/Content/config";
 import { FormBlock } from "@/components/blocks/Form/config";
 import { MediaBlock } from "@/components/blocks/MediaBlock/config";
+import { JobsBlock } from "@/components/blocks/JobsBlock/config";
+
 import { hero } from "@/components/heros/config";
 import { slugField } from "@/fields/slug";
 import { populatePublishedAt } from "@/hooks/populatePublishedAt";
 import { generatePreviewPath } from "@/utilities/generatePreviewPath";
 import { getServerSideURL } from "@/utilities/getURL";
-import { revalidatePage } from "./hooks/revalidatePage";
 
+import { revalidatePage } from "./hooks/revalidatePage";
 
 export const Pages: CollectionConfig<"pages"> = {
   slug: "pages",
@@ -76,7 +78,7 @@ export const Pages: CollectionConfig<"pages"> = {
             {
               name: "layout",
               type: "blocks",
-              blocks: [CallToAction, Content, MediaBlock, FormBlock],
+              blocks: [CallToAction, Content, MediaBlock, FormBlock, JobsBlock],
               required: true,
             },
           ],

@@ -26,7 +26,7 @@ export interface Config {
   };
   collectionsJoins: {
     'job-categories': {
-      'jobs / opportunities': 'job-postings';
+      jobs: 'job-postings';
     };
   };
   collectionsSelect: {
@@ -127,7 +127,7 @@ export interface Page {
     media?: (number | null) | Media;
     color: string;
   };
-  layout: (CallToActionBlock | ContentBlock | MediaBlock | FormBlock)[];
+  layout: (CallToActionBlock | ContentBlock | MediaBlock | FormBlock | JobsBlock)[];
   meta?: {
     title?: string | null;
     /**
@@ -528,6 +528,15 @@ export interface Form {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "JobsBlock".
+ */
+export interface JobsBlock {
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'jobsBlock';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "job-postings".
  */
 export interface JobPosting {
@@ -535,7 +544,7 @@ export interface JobPosting {
   title: string;
   place: {
     name: string;
-    subtitle?: string | null;
+    subtitle: string;
     city: string;
     logo: number | Media;
     images?:
@@ -563,14 +572,14 @@ export interface JobPosting {
   /**
    * Description of the hours (keep this text for extra flexibility)
    */
-  hoursDescription?: string | null;
-  applicationTimeline?: {
+  hoursDescription: string;
+  applicationTimeline: {
     /**
      * When the application opens or is coming soon
      */
-    applicationOpens?: string | null;
+    applicationOpens: string;
   };
-  'job-category': (number | JobCategory)[];
+  categories: (number | JobCategory)[];
   slug?: string | null;
   slugLock?: boolean | null;
   updatedAt: string;
@@ -585,7 +594,7 @@ export interface JobCategory {
   id: number;
   title: string;
   description?: string | null;
-  'jobs / opportunities'?: {
+  jobs?: {
     docs?: (number | JobPosting)[] | null;
     hasNextPage?: boolean | null;
   } | null;
@@ -787,6 +796,7 @@ export interface PagesSelect<T extends boolean = true> {
         content?: T | ContentBlockSelect<T>;
         mediaBlock?: T | MediaBlockSelect<T>;
         formBlock?: T | FormBlockSelect<T>;
+        jobsBlock?: T | JobsBlockSelect<T>;
       };
   meta?:
     | T
@@ -870,6 +880,14 @@ export interface FormBlockSelect<T extends boolean = true> {
   form?: T;
   enableIntro?: T;
   introContent?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "JobsBlock_select".
+ */
+export interface JobsBlockSelect<T extends boolean = true> {
   id?: T;
   blockName?: T;
 }
@@ -984,7 +1002,7 @@ export interface JobPostingsSelect<T extends boolean = true> {
     | {
         applicationOpens?: T;
       };
-  'job-category'?: T;
+  categories?: T;
   slug?: T;
   slugLock?: T;
   updatedAt?: T;
@@ -998,7 +1016,7 @@ export interface JobPostingsSelect<T extends boolean = true> {
 export interface JobCategoriesSelect<T extends boolean = true> {
   title?: T;
   description?: T;
-  'jobs / opportunities'?: T;
+  jobs?: T;
   updatedAt?: T;
   createdAt?: T;
 }

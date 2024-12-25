@@ -1,2 +1,18 @@
-@tailwind components;
-@tailwind utilities;
+@layer payload, payload-default, tailwind-layer;
+
+@layer tailwind-layer {
+  @tailwind components;
+  @tailwind utilities;
+
+  // Hacky fix to prevent overriding of .table class used in payload admin dashboard
+  // use tw-table class instead when display: table needed
+  @layer utilities {
+    .table {
+      @apply block;
+    }
+
+    .tw-table {
+      display: table;
+    }
+  }
+}

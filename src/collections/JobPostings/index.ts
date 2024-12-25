@@ -23,24 +23,6 @@ export const JobPostings: CollectionConfig<"job-postings"> = {
   },
   admin: {
     defaultColumns: ["title", "slug", "status", "updatedAt"],
-    livePreview: {
-      url: ({ data }) => {
-        const path = generatePreviewPath({
-          slug: typeof data?.slug === "string" ? data.slug : "",
-          collection: "job-postings",
-        });
-
-        return `${getServerSideURL()}${path}`;
-      },
-    },
-    preview: (data) => {
-      const path = generatePreviewPath({
-        slug: typeof data?.slug === "string" ? data.slug : "",
-        collection: "job-postings",
-      });
-
-      return `${getServerSideURL()}${path}`;
-    },
     useAsTitle: "title",
   },
   fields: [
@@ -61,6 +43,7 @@ export const JobPostings: CollectionConfig<"job-postings"> = {
         {
           name: "subtitle",
           type: "text",
+          required: true,
           admin: {
             placeholder: "e.g., Awards Manufacturer, Restaurant",
           },
@@ -111,6 +94,7 @@ export const JobPostings: CollectionConfig<"job-postings"> = {
     {
       name: "hoursDescription",
       type: "text",
+      required: true,
       admin: {
         description: "Description of the hours (keep this text for extra flexibility)",
       },
@@ -122,7 +106,7 @@ export const JobPostings: CollectionConfig<"job-postings"> = {
         {
           name: "applicationOpens",
           type: "date",
-          required: false,
+          required: true,
           admin: {
             description: "When the application opens or is coming soon",
           },
@@ -130,7 +114,7 @@ export const JobPostings: CollectionConfig<"job-postings"> = {
       ],
     },
     {
-      name: "job-category",
+      name: "categories",
       type: "relationship",
       relationTo: "job-categories",
       hasMany: true,
