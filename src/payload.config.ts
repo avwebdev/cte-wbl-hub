@@ -69,9 +69,9 @@ export default buildConfig({
      * true (default) - automatically push schema changes to the database
      * false - don't automatically push schema changes to the database
      * set to false due to long reload times when making changes with push enabled
-     * 
+     *
     */
-    push: false,
+    // push: false,
   }),
   collections: [Pages, Media, Users, JobPostings, JobCategories],
   cors: [getServerSideURL()].filter(Boolean),

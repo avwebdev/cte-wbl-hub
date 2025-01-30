@@ -4,8 +4,6 @@ import { authenticated } from "@/access/authenticated";
 import { authenticatedOrPublished } from "@/access/authenticatedOrPublished";
 import { slugField } from "@/fields/slug";
 import { populatePublishedAt } from "@/hooks/populatePublishedAt";
-import { generatePreviewPath } from "@/utilities/generatePreviewPath";
-import { getServerSideURL } from "@/utilities/getURL";
 import { revalidateDelete, revalidateJobPosting } from "./hooks/revalidateOpportunity";
 import { FixedToolbarFeature, HeadingFeature, InlineToolbarFeature, lexicalEditor } from "@payloadcms/richtext-lexical";
 
@@ -18,16 +16,16 @@ export const JobPostings: CollectionConfig<"job-postings"> = {
     update: authenticated,
   },
   defaultPopulate: {
-    title: true,
+    name: true,
     slug: true,
   },
   admin: {
-    defaultColumns: ["title", "slug", "status", "updatedAt"],
-    useAsTitle: "title",
+    defaultColumns: ["name", "slug", "updatedAt"],
+    useAsTitle: "name",
   },
   fields: [
     {
-      name: "title",
+      name: "name",
       type: "text",
       required: true,
     },
@@ -35,11 +33,6 @@ export const JobPostings: CollectionConfig<"job-postings"> = {
       name: "place",
       type: "group",
       fields: [
-        {
-          name: "name",
-          type: "text",
-          required: true,
-        },
         {
           name: "subtitle",
           type: "text",
@@ -53,7 +46,7 @@ export const JobPostings: CollectionConfig<"job-postings"> = {
           type: "text",
           required: true,
           admin: {
-            placeholder: "e.g., San Francisco",
+            placeholder: "e.g., San Francisco, Pleasanton",
           },
         },
         {
@@ -77,38 +70,101 @@ export const JobPostings: CollectionConfig<"job-postings"> = {
       ],
     },
     {
-      name: "description",
-      type: "richText",
-      editor: lexicalEditor({
-        features: ({ rootFeatures }) => {
-          return [
-            ...rootFeatures,
-            HeadingFeature({ enabledHeadingSizes: ["h2", "h3", "h4"] }),
-            FixedToolbarFeature(),
-            InlineToolbarFeature(),
-          ];
+      name: "about",
+      type: "group",
+      fields: [
+        {
+          name: "opportunityType",
+          type: "select",
+          hasMany: true,
+          options: ["Job Shadow Opportunity", "Internship Opportunity", "Apprenticeship Opportunity"],
+          required: true,
         },
-      }),
-      required: true,
+        {
+          name: "paidOrUnpaid",
+          type: "select",
+          hasMany: true,
+          options: ["Paid", "Unpaid"],
+          required: true,
+          admin: {
+            condition: (data) => {
+              if (data.about.opportunityType?.includes("Internship Opportunity")) {
+                return true;
+              } else {
+                return false;
+              }
+            },
+          },
+        },
+        {
+          name: "description",
+          type: "richText",
+          editor: lexicalEditor({
+            features: ({ rootFeatures }) => {
+              return [
+                ...rootFeatures,
+                HeadingFeature({ enabledHeadingSizes: ["h2", "h3", "h4"] }),
+                FixedToolbarFeature(),
+                InlineToolbarFeature(),
+              ];
+            },
+          }),
+          required: true,
+        },
+        {
+          name: "hoursDescription",
+          type: "text",
+          required: true,
+          admin: {
+            description: "Description of the hours (text for extra flexibility)",
+          },
+        },
+        {
+          name: "minimumAgeRequirement",
+          type: "number",
+          admin: {
+            description: "Minimum Age Requirement",
+          },
+        },
+      ],
     },
     {
-      name: "hoursDescription",
-      type: "text",
-      required: true,
-      admin: {
-        description: "Description of the hours (keep this text for extra flexibility)",
-      },
-    },
-    {
-      name: "applicationTimeline",
+      name: "application",
       type: "group",
       fields: [
         {
           name: "applicationOpens",
           type: "date",
-          required: true,
+          required: false,
           admin: {
-            description: "When the application opens or is coming soon",
+            description: "When the application opens",
+            placeholder: "Select a date",
+          },
+        },
+        {
+          name: "applicationCloses",
+          type: "date",
+          required: false,
+          admin: {
+            description: "When the application closes",
+            placeholder: "Select a date",
+          },
+        },
+        {
+          name: "applicationLink",
+          type: "text",
+          admin: {
+            description: "Link to the application / directions on how to apply",
+          },
+          validate: (value) => {
+            const urlPattern =
+              /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/;
+
+            if (value == "" || value == null || (value && urlPattern.test(value))) {
+              return true;
+            } else {
+              return "Please enter a valid URL.";
+            }
           },
         },
       ],
@@ -120,7 +176,7 @@ export const JobPostings: CollectionConfig<"job-postings"> = {
       hasMany: true,
       required: true,
     },
-    ...slugField(),
+    ...slugField("name"),
   ],
   hooks: {
     afterChange: [revalidateJobPosting],

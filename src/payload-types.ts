@@ -541,9 +541,8 @@ export interface JobsBlock {
  */
 export interface JobPosting {
   id: number;
-  title: string;
+  name: string;
   place: {
-    name: string;
     subtitle: string;
     city: string;
     logo: number | Media;
@@ -554,30 +553,46 @@ export interface JobPosting {
         }[]
       | null;
   };
-  description: {
-    root: {
-      type: string;
-      children: {
+  about: {
+    opportunityType: ('Job Shadow Opportunity' | 'Internship Opportunity' | 'Apprenticeship Opportunity')[];
+    paidOrUnpaid?: ('Paid' | 'Unpaid')[] | null;
+    description: {
+      root: {
         type: string;
+        children: {
+          type: string;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
         version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
+      };
+      [k: string]: unknown;
     };
-    [k: string]: unknown;
-  };
-  /**
-   * Description of the hours (keep this text for extra flexibility)
-   */
-  hoursDescription: string;
-  applicationTimeline: {
     /**
-     * When the application opens or is coming soon
+     * Description of the hours (text for extra flexibility)
      */
-    applicationOpens: string;
+    hoursDescription: string;
+    /**
+     * Minimum Age Requirement
+     */
+    minimumAgeRequirement?: number | null;
+  };
+  application?: {
+    /**
+     * When the application opens
+     */
+    applicationOpens?: string | null;
+    /**
+     * When the application closes
+     */
+    applicationCloses?: string | null;
+    /**
+     * Link to the application / directions on how to apply
+     */
+    applicationLink?: string | null;
   };
   categories: (number | JobCategory)[];
   slug?: string | null;
@@ -980,11 +995,10 @@ export interface MediaSelect<T extends boolean = true> {
  * via the `definition` "job-postings_select".
  */
 export interface JobPostingsSelect<T extends boolean = true> {
-  title?: T;
+  name?: T;
   place?:
     | T
     | {
-        name?: T;
         subtitle?: T;
         city?: T;
         logo?: T;
@@ -995,12 +1009,21 @@ export interface JobPostingsSelect<T extends boolean = true> {
               id?: T;
             };
       };
-  description?: T;
-  hoursDescription?: T;
-  applicationTimeline?:
+  about?:
+    | T
+    | {
+        opportunityType?: T;
+        paidOrUnpaid?: T;
+        description?: T;
+        hoursDescription?: T;
+        minimumAgeRequirement?: T;
+      };
+  application?:
     | T
     | {
         applicationOpens?: T;
+        applicationCloses?: T;
+        applicationLink?: T;
       };
   categories?: T;
   slug?: T;

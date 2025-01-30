@@ -6,6 +6,8 @@ import {
   ParagraphFeature,
   UnderlineFeature,
   UploadFeature,
+  UnorderedListFeature,
+  OrderedListFeature,
 } from "@payloadcms/richtext-lexical";
 import type { Config } from "payload";
 import { EmbedFeature } from "@/lexical-features/embedFeature/feature.server";
@@ -41,6 +43,8 @@ export const defaultLexical: Config["editor"] = lexicalEditor({
       }),
       UploadFeature(),
       EmbedFeature(),
+      UnorderedListFeature(),
+      OrderedListFeature(),
     ];
   },
 });
